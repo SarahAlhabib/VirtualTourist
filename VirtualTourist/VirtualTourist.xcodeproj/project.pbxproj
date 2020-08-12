@@ -8,14 +8,14 @@
 
 /* Begin PBXBuildFile section */
 		2EB8771B24E4086F00C0EDB1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EB8771A24E4086F00C0EDB1 /* AppDelegate.swift */; };
-		2EB8771D24E4086F00C0EDB1 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EB8771C24E4086F00C0EDB1 /* SceneDelegate.swift */; };
-		2EB8771F24E4086F00C0EDB1 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EB8771E24E4086F00C0EDB1 /* ViewController.swift */; };
+		2EB8771F24E4086F00C0EDB1 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EB8771E24E4086F00C0EDB1 /* MapViewController.swift */; };
 		2EB8772224E4086F00C0EDB1 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2EB8772024E4086F00C0EDB1 /* Main.storyboard */; };
 		2EB8772424E4087500C0EDB1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2EB8772324E4087500C0EDB1 /* Assets.xcassets */; };
 		2EB8772724E4087500C0EDB1 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2EB8772524E4087500C0EDB1 /* LaunchScreen.storyboard */; };
 		2EB8773224E4087500C0EDB1 /* VirtualTouristTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EB8773124E4087500C0EDB1 /* VirtualTouristTests.swift */; };
 		2EB8773D24E4087500C0EDB1 /* VirtualTouristUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EB8773C24E4087500C0EDB1 /* VirtualTouristUITests.swift */; };
 		2EB8774D24E40A6700C0EDB1 /* VirtualTourist.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 2EB8774B24E40A6700C0EDB1 /* VirtualTourist.xcdatamodeld */; };
+		2EB8775024E40EE800C0EDB1 /* DataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EB8774F24E40EE800C0EDB1 /* DataController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -38,8 +38,7 @@
 /* Begin PBXFileReference section */
 		2EB8771724E4086F00C0EDB1 /* VirtualTourist.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VirtualTourist.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2EB8771A24E4086F00C0EDB1 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		2EB8771C24E4086F00C0EDB1 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		2EB8771E24E4086F00C0EDB1 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		2EB8771E24E4086F00C0EDB1 /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		2EB8772124E4086F00C0EDB1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		2EB8772324E4087500C0EDB1 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		2EB8772624E4087500C0EDB1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -51,6 +50,7 @@
 		2EB8773C24E4087500C0EDB1 /* VirtualTouristUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VirtualTouristUITests.swift; sourceTree = "<group>"; };
 		2EB8773E24E4087500C0EDB1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2EB8774C24E40A6700C0EDB1 /* VirtualTourist.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = VirtualTourist.xcdatamodel; sourceTree = "<group>"; };
+		2EB8774F24E40EE800C0EDB1 /* DataController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -81,8 +81,9 @@
 		2EB8770E24E4086F00C0EDB1 = {
 			isa = PBXGroup;
 			children = (
+				2EB8771A24E4086F00C0EDB1 /* AppDelegate.swift */,
 				2EB8772824E4087500C0EDB1 /* Info.plist */,
-				2EB8774A24E40A1A00C0EDB1 /* Modal */,
+				2EB8774A24E40A1A00C0EDB1 /* Model */,
 				2EB8771924E4086F00C0EDB1 /* VirtualTourist */,
 				2EB8774E24E40BF100C0EDB1 /* View */,
 				2EB8773024E4087500C0EDB1 /* VirtualTouristTests */,
@@ -104,9 +105,7 @@
 		2EB8771924E4086F00C0EDB1 /* VirtualTourist */ = {
 			isa = PBXGroup;
 			children = (
-				2EB8771A24E4086F00C0EDB1 /* AppDelegate.swift */,
-				2EB8771C24E4086F00C0EDB1 /* SceneDelegate.swift */,
-				2EB8771E24E4086F00C0EDB1 /* ViewController.swift */,
+				2EB8771E24E4086F00C0EDB1 /* MapViewController.swift */,
 			);
 			path = VirtualTourist;
 			sourceTree = "<group>";
@@ -129,12 +128,13 @@
 			path = VirtualTouristUITests;
 			sourceTree = "<group>";
 		};
-		2EB8774A24E40A1A00C0EDB1 /* Modal */ = {
+		2EB8774A24E40A1A00C0EDB1 /* Model */ = {
 			isa = PBXGroup;
 			children = (
 				2EB8774B24E40A6700C0EDB1 /* VirtualTourist.xcdatamodeld */,
+				2EB8774F24E40EE800C0EDB1 /* DataController.swift */,
 			);
-			path = Modal;
+			path = Model;
 			sourceTree = "<group>";
 		};
 		2EB8774E24E40BF100C0EDB1 /* View */ = {
@@ -278,10 +278,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2EB8775024E40EE800C0EDB1 /* DataController.swift in Sources */,
 				2EB8774D24E40A6700C0EDB1 /* VirtualTourist.xcdatamodeld in Sources */,
-				2EB8771F24E4086F00C0EDB1 /* ViewController.swift in Sources */,
+				2EB8771F24E4086F00C0EDB1 /* MapViewController.swift in Sources */,
 				2EB8771B24E4086F00C0EDB1 /* AppDelegate.swift in Sources */,
-				2EB8771D24E4086F00C0EDB1 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -455,7 +455,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				INFOPLIST_FILE = VirtualTourist/Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -472,7 +472,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				INFOPLIST_FILE = VirtualTourist/Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

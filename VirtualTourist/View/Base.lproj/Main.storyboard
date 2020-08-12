@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16097.2" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="iTf-U0-5YF">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16097.2" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="5BM-gS-6Jt">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
@@ -8,7 +8,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Collection View Controller-->
+        <!--Photo Album-->
         <scene sceneID="WTJ-N3-4fN">
             <objects>
                 <collectionViewController id="hc2-Za-76f" sceneMemberID="viewController">
@@ -37,35 +37,33 @@
                             <outlet property="delegate" destination="hc2-Za-76f" id="X7W-Za-Y0f"/>
                         </connections>
                     </collectionView>
-                    <navigationItem key="navigationItem" id="AOG-dm-GNb"/>
-                    <connections>
-                        <segue destination="ilz-iy-jzB" kind="show" id="Gr4-xF-f4s"/>
-                    </connections>
+                    <toolbarItems>
+                        <barButtonItem style="plain" systemItem="flexibleSpace" id="d7a-om-nQe"/>
+                        <barButtonItem title="New Collection" id="YJx-C6-tVR"/>
+                        <barButtonItem style="plain" systemItem="flexibleSpace" id="PII-AU-feV"/>
+                    </toolbarItems>
+                    <navigationItem key="navigationItem" title="Photo Album" id="AOG-dm-GNb"/>
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                 </collectionViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bra-Y3-SMk" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1555.072463768116" y="73.660714285714278"/>
+            <point key="canvasLocation" x="4281.159420289855" y="73.660714285714278"/>
         </scene>
-        <!--View Controller-->
+        <!--Map-->
         <scene sceneID="kiK-W3-PWQ">
             <objects>
-                <viewController id="ilz-iy-jzB" sceneMemberID="viewController">
+                <viewController id="ilz-iy-jzB" customClass="MapViewController" customModule="VirtualTourist" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="7Ag-bp-p6v">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="gS6-9I-Gfu">
                                 <rect key="frame" x="0.0" y="88" width="414" height="774"/>
+                                <gestureRecognizers/>
+                                <connections>
+                                    <outletCollection property="gestureRecognizers" destination="LHr-Hz-MP1" appends="YES" id="V48-CS-Vsz"/>
+                                </connections>
                             </mapView>
-                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="rbX-qH-O0h">
-                                <rect key="frame" x="0.0" y="818" width="414" height="44"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
-                                <items>
-                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="0jB-Pn-nMz"/>
-                                    <barButtonItem title="New Collection" id="mqW-Gu-CA4"/>
-                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="BsO-OY-c9e"/>
-                                </items>
-                            </toolbar>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
@@ -76,29 +74,42 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="HtS-rE-rwy"/>
                     </view>
-                    <navigationItem key="navigationItem" id="Oyq-gM-G3g"/>
+                    <navigationItem key="navigationItem" title="Map" id="B9Y-HX-8WV"/>
+                    <connections>
+                        <outlet property="mapView" destination="gS6-9I-Gfu" id="Eib-P3-fON"/>
+                        <segue destination="hc2-Za-76f" kind="show" identifier="photoAlbumSegue" id="zm1-tM-106"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Hga-ng-DIt" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer id="LHr-Hz-MP1">
+                    <connections>
+                        <action selector="mapTap:" destination="ilz-iy-jzB" id="k62-A5-OQh"/>
+                    </connections>
+                </tapGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="2415.9420289855075" y="73.660714285714278"/>
+            <point key="canvasLocation" x="3326.0869565217395" y="73.660714285714278"/>
         </scene>
         <!--Navigation Controller-->
-        <scene sceneID="wzV-rc-Zc5">
+        <scene sceneID="pA2-KK-MEa">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="iTf-U0-5YF" sceneMemberID="viewController">
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="5BM-gS-6Jt" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="941-wR-MAI">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="t57-MH-piP">
                         <rect key="frame" x="0.0" y="44" width="414" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
-                        <segue destination="hc2-Za-76f" kind="relationship" relationship="rootViewController" id="nPv-lB-wAi"/>
+                        <segue destination="ilz-iy-jzB" kind="relationship" relationship="rootViewController" id="V8y-wa-p2i"/>
                     </connections>
                 </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="9tL-OW-A4a" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="cNe-6J-mhy" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <navigationBar contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="JjN-X8-hdR">
+                    <rect key="frame" x="0.0" y="0.0" width="414" height="44"/>
+                    <autoresizingMask key="autoresizingMask"/>
+                </navigationBar>
             </objects>
-            <point key="canvasLocation" x="644.92753623188412" y="73.660714285714278"/>
+            <point key="canvasLocation" x="2415.9420289855075" y="73.660714285714278"/>
         </scene>
     </scenes>
 </document>
