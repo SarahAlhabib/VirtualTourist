@@ -13,7 +13,7 @@ class Network{
     static let key = "b99fe34c4a1fb29b280c306c2ab18889"
     
     static var random: UInt32 {
-        return arc4random_uniform(5)+1
+        return arc4random_uniform(10)+1
     }
     
     class func RequestPhotosURLs(lat: Double, lon: Double, completion: @escaping ([photo]?,Error?)->Void ){

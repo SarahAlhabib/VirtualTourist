@@ -12,6 +12,7 @@ import CoreData
 
 class MapViewController: UIViewController, MKMapViewDelegate {
 
+    //MARK: Set Up
     @IBOutlet weak var mapView: MKMapView!
     
     var pins:[Pin]!
@@ -44,46 +45,47 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     }
     
     fileprivate func setUpMapView() {
-        
         mapView.delegate=self
-        
         var annotations = [MKPointAnnotation]()
         
         for pin in pins {
-            
             let lat = CLLocationDegrees(pin.latitude)
             let long = CLLocationDegrees(pin.longitude)
-            
             let coordinate = CLLocationCoordinate2D(latitude: lat, longitude: long)
-            
             let annotation = MKPointAnnotation()
             annotation.coordinate = coordinate
-            
             annotations.append(annotation)
         }
-        
         self.mapView.addAnnotations(annotations)
     }
     
 
-    
+    //MARK: Map View DataSource
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
-            
         let reuseId = "pin"
         var pinView = mapView.dequeueReusableAnnotationView(withIdentifier: reuseId) as? MKPinAnnotationView
         if pinView == nil {
             pinView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: reuseId)
             pinView!.pinTintColor = .red
-            //pinView!.isDraggable = true
+            pinView!.isDraggable = true
         }
         else {
             pinView!.annotation = annotation
         }
-            
         return pinView
     }
-
     
+    //MARK: Map View Delegate
+    func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
+        let coordinates = view.annotation?.coordinate
+        for pin in pins {
+            if pin.latitude==coordinates!.latitude && pin.longitude==coordinates!.longitude {
+            selectedPin = pin
+            }
+        }
+        performSegue(withIdentifier: "photoAlbumSegue", sender: self)
+    }
+
     @IBAction func mapTap(_ sender: Any) {
         let sender = sender as! UILongPressGestureRecognizer
         
@@ -91,6 +93,23 @@ class MapViewController: UIViewController, MKMapViewDelegate {
             addPinToMapView(sender: sender)
         }
     }
+    
+    //MARK: Drag pin feature
+    func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, didChange newState: MKAnnotationView.DragState, fromOldState oldState: MKAnnotationView.DragState) {
+        let annotationToDelete: CLLocationCoordinate2D!
+        let newAnnotation: CLLocationCoordinate2D!
+        
+        if view.dragState == .starting {
+            annotationToDelete = view.annotation?.coordinate
+            deletePinFromModel(coordinates: annotationToDelete)
+        }
+        if view.dragState == .ending {
+            newAnnotation = view.annotation?.coordinate
+            addPinToModel(coordinates: newAnnotation)
+        }
+    }
+    
+    //MARK: Editting
     
     func addPinToMapView(sender: UILongPressGestureRecognizer){
         let location = sender.location(in: mapView)
@@ -126,30 +145,8 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         }
         
     }
-    func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, didChange newState: MKAnnotationView.DragState, fromOldState oldState: MKAnnotationView.DragState) {
-        let annotationToDelete: CLLocationCoordinate2D!
-        let newAnnotation: CLLocationCoordinate2D!
-        
-        if view.dragState == oldState {
-            annotationToDelete = view.annotation?.coordinate
-            deletePinFromModel(coordinates: annotationToDelete)
-        }
-        if view.dragState == newState {
-            newAnnotation = view.annotation?.coordinate
-            addPinToModel(coordinates: newAnnotation)
-        }
-    }
     
-    func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
-        let coordinates = view.annotation?.coordinate
-        for pin in pins {
-            if pin.latitude==coordinates!.latitude && pin.longitude==coordinates!.longitude {
-            selectedPin = pin
-            }
-        }
-        performSegue(withIdentifier: "photoAlbumSegue", sender: self)
-    }
-    
+    //MARK: Navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         let vc = segue.destination as! CollectionViewController
         vc.dataController = dataController

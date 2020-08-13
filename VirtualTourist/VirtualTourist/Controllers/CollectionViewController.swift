@@ -11,9 +11,12 @@ import CoreData
 
 private let reuseIdentifier = "Cell"
 
-class CollectionViewController: UICollectionViewController {
+class CollectionViewController: UICollectionViewController{
     
     @IBOutlet weak var flowLayout: UICollectionViewFlowLayout!
+    
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
+   
     var photos:[Photo]!
     
     var dataController:DataController!
@@ -40,7 +43,7 @@ class CollectionViewController: UICollectionViewController {
         }
         
     }
-    
+    //MARK: Fetch Stored Images
     func fetchImages(){
         let fetchRequest:NSFetchRequest<Photo> = Photo.fetchRequest()
         let predicate = NSPredicate(format: "pin == %@", pin)
@@ -54,18 +57,21 @@ class CollectionViewController: UICollectionViewController {
         }
     }
     
+    //MARK: Request Images From Flickr
     @IBAction func requestNewCollection(_ sender: Any) {
         if photos != nil && photos.count>0{
         deletePhotos()
         }
-        photos.removeAll()
+        self.activityIndicator.startAnimating()
         requestImages()
     }
     
     func requestImages(){
+        
         Network.getPhotosData(lat: pin.latitude, lon: pin.longitude) { (photosData, error) in
             guard let photosData = photosData else{
                 self.showRequestImageFaultAlert()
+                self.activityIndicator.stopAnimating()
                 return
             }
             for data in photosData{
@@ -76,28 +82,23 @@ class CollectionViewController: UICollectionViewController {
             }
             try? self.dataController.viewContext.save()
             self.collectionView.reloadData()
+            self.activityIndicator.stopAnimating()
         }
+         
     }
     
+    //MARK: Delete All Photos From Persistent Store and CollectionView
     func deletePhotos(){
         for photo in photos{
             dataController.viewContext.delete(photo)
         }
         try? dataController.viewContext.save()
+        let i = IndexPath(indexes: photos.indices)
+        collectionView.deleteItems(at: [i])
+        photos.removeAll()
     }
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using [segue destinationViewController].
-        // Pass the selected object to the new view controller.
-    }
-    */
 
     // MARK: UICollectionViewDataSource
-
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return photos.count
     }
@@ -111,7 +112,6 @@ class CollectionViewController: UICollectionViewController {
     }
 
     // MARK: delete image
-    
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         collectionView.deleteItems(at: [indexPath])
         let photoToRemove = photos[indexPath.item]
@@ -122,7 +122,6 @@ class CollectionViewController: UICollectionViewController {
 
     
     //MARK: Alert
-    
     func showRequestImageFaultAlert() {
         let alert = UIAlertController(title: "Ops!", message: "images could not be downloaded, click new collection please", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
