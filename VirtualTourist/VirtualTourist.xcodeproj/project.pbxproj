@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		2E8E2D6924E465B60043F4BE /* CollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E8E2D6824E465B60043F4BE /* CollectionViewController.swift */; };
+		2E8E2D6B24E467020043F4BE /* CollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E8E2D6A24E467020043F4BE /* CollectionViewCell.swift */; };
+		2E8E2D6E24E483420043F4BE /* Network.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E8E2D6D24E483420043F4BE /* Network.swift */; };
+		2E8E2D7024E48C780043F4BE /* photosResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E8E2D6F24E48C780043F4BE /* photosResponse.swift */; };
 		2EB8771B24E4086F00C0EDB1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EB8771A24E4086F00C0EDB1 /* AppDelegate.swift */; };
 		2EB8771F24E4086F00C0EDB1 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EB8771E24E4086F00C0EDB1 /* MapViewController.swift */; };
 		2EB8772224E4086F00C0EDB1 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2EB8772024E4086F00C0EDB1 /* Main.storyboard */; };
@@ -38,6 +41,9 @@
 
 /* Begin PBXFileReference section */
 		2E8E2D6824E465B60043F4BE /* CollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewController.swift; sourceTree = "<group>"; };
+		2E8E2D6A24E467020043F4BE /* CollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewCell.swift; sourceTree = "<group>"; };
+		2E8E2D6D24E483420043F4BE /* Network.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Network.swift; sourceTree = "<group>"; };
+		2E8E2D6F24E48C780043F4BE /* photosResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = photosResponse.swift; sourceTree = "<group>"; };
 		2EB8771724E4086F00C0EDB1 /* VirtualTourist.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VirtualTourist.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2EB8771A24E4086F00C0EDB1 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		2EB8771E24E4086F00C0EDB1 /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
@@ -89,6 +95,14 @@
 			path = Controllers;
 			sourceTree = "<group>";
 		};
+		2E8E2D6C24E4698C0043F4BE /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				2E8E2D6D24E483420043F4BE /* Network.swift */,
+			);
+			path = Network;
+			sourceTree = "<group>";
+		};
 		2EB8770E24E4086F00C0EDB1 = {
 			isa = PBXGroup;
 			children = (
@@ -114,9 +128,10 @@
 		2EB8771924E4086F00C0EDB1 /* VirtualTourist */ = {
 			isa = PBXGroup;
 			children = (
+				2EB8774A24E40A1A00C0EDB1 /* Model */,
+				2E8E2D6C24E4698C0043F4BE /* Network */,
 				2E8E2D6724E4657F0043F4BE /* Controllers */,
 				2EB8774E24E40BF100C0EDB1 /* View */,
-				2EB8774A24E40A1A00C0EDB1 /* Model */,
 			);
 			path = VirtualTourist;
 			sourceTree = "<group>";
@@ -144,6 +159,8 @@
 			children = (
 				2EB8774B24E40A6700C0EDB1 /* VirtualTourist.xcdatamodeld */,
 				2EB8774F24E40EE800C0EDB1 /* DataController.swift */,
+				2E8E2D6A24E467020043F4BE /* CollectionViewCell.swift */,
+				2E8E2D6F24E48C780043F4BE /* photosResponse.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -291,8 +308,11 @@
 			files = (
 				2EB8775024E40EE800C0EDB1 /* DataController.swift in Sources */,
 				2EB8774D24E40A6700C0EDB1 /* VirtualTourist.xcdatamodeld in Sources */,
+				2E8E2D6B24E467020043F4BE /* CollectionViewCell.swift in Sources */,
+				2E8E2D7024E48C780043F4BE /* photosResponse.swift in Sources */,
 				2EB8771F24E4086F00C0EDB1 /* MapViewController.swift in Sources */,
 				2EB8771B24E4086F00C0EDB1 /* AppDelegate.swift in Sources */,
+				2E8E2D6E24E483420043F4BE /* Network.swift in Sources */,
 				2E8E2D6924E465B60043F4BE /* CollectionViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

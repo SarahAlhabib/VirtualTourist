@@ -18,6 +18,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     
     var dataController:DataController!
     
+    var selectedPin:Pin!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,9 +27,13 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         setUpMapView()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.setToolbarHidden(true, animated: true)
+    }
+    
     func fetchPins() {
         let fetchRequest:NSFetchRequest<Pin> = Pin.fetchRequest()
-        
         do{
             let result = try dataController.viewContext.fetch(fetchRequest)
             pins = result
@@ -80,14 +85,14 @@ class MapViewController: UIViewController, MKMapViewDelegate {
 
     
     @IBAction func mapTap(_ sender: Any) {
-        let sender = sender as! UITapGestureRecognizer
+        let sender = sender as! UILongPressGestureRecognizer
         
         if sender.state == .ended{
             addPinToMapView(sender: sender)
         }
     }
     
-    func addPinToMapView(sender: UITapGestureRecognizer){
+    func addPinToMapView(sender: UILongPressGestureRecognizer){
         let location = sender.location(in: mapView)
         let coordinates = mapView.convert(location, toCoordinateFrom: mapView)
         let annotation = MKPointAnnotation()
@@ -101,19 +106,54 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         let pin = Pin(context: dataController.viewContext)
         pin.latitude = coordinates.latitude
         pin.longitude = coordinates.longitude
-        
+        pins.append(pin)
         try? dataController.viewContext.save()
     }
     
-//    func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, didChange newState: MKAnnotationView.DragState, fromOldState oldState: MKAnnotationView.DragState) {
-//        let annotationToDelete: MKAnnotation =
-//    }
+    func deletePinFromModel(coordinates: CLLocationCoordinate2D){
+        var pinToDelete:Pin?
+        var i = 0
+        for pin in pins {
+            if pin.latitude==coordinates.latitude && pin.longitude==coordinates.longitude {
+                pinToDelete = pin
+                pins.remove(at: i)
+            }
+            i+=1
+        }
+        if let pinToDelete = pinToDelete {
+            dataController.viewContext.delete(pinToDelete)
+            try? dataController.viewContext.save()
+        }
+        
+    }
+    func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, didChange newState: MKAnnotationView.DragState, fromOldState oldState: MKAnnotationView.DragState) {
+        let annotationToDelete: CLLocationCoordinate2D!
+        let newAnnotation: CLLocationCoordinate2D!
+        
+        if view.dragState == oldState {
+            annotationToDelete = view.annotation?.coordinate
+            deletePinFromModel(coordinates: annotationToDelete)
+        }
+        if view.dragState == newState {
+            newAnnotation = view.annotation?.coordinate
+            addPinToModel(coordinates: newAnnotation)
+        }
+    }
+    
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
+        let coordinates = view.annotation?.coordinate
+        for pin in pins {
+            if pin.latitude==coordinates!.latitude && pin.longitude==coordinates!.longitude {
+            selectedPin = pin
+            }
+        }
         performSegue(withIdentifier: "photoAlbumSegue", sender: self)
     }
     
-//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-//        <#code#>
-//    }
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        let vc = segue.destination as! CollectionViewController
+        vc.dataController = dataController
+        vc.pin = selectedPin
+    }
 }
 

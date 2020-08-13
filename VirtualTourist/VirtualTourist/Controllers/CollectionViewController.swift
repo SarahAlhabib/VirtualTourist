@@ -7,21 +7,83 @@
 //
 
 import UIKit
+import CoreData
 
 private let reuseIdentifier = "Cell"
 
 class CollectionViewController: UICollectionViewController {
+    
+    @IBOutlet weak var flowLayout: UICollectionViewFlowLayout!
+    var photos:[Photo]!
+    
+    var dataController:DataController!
+    
+    var pin:Pin!
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
         // Register cell classes
-        self.collectionView!.register(UICollectionViewCell.self, forCellWithReuseIdentifier: reuseIdentifier)
+//        self.collectionView!.register(CollectionViewCell.self, forCellWithReuseIdentifier: reuseIdentifier)
+        
+        let space:CGFloat = 1.5
+        let dimension = (view.frame.size.width - (2 * space)) / 3.0
+        flowLayout.minimumInteritemSpacing = space
+        flowLayout.minimumLineSpacing = space
+        flowLayout.itemSize = CGSize(width: dimension, height: dimension)
+        
+        navigationController?.setToolbarHidden(false, animated: true)
 
-        // Do any additional setup after loading the view.
+        fetchImages()
+        if photos.count == 0 {
+            requestImages()
+        }
+        
+    }
+    
+    func fetchImages(){
+        let fetchRequest:NSFetchRequest<Photo> = Photo.fetchRequest()
+        let predicate = NSPredicate(format: "pin == %@", pin)
+        fetchRequest.predicate=predicate
+        do{
+            let result = try dataController.viewContext.fetch(fetchRequest)
+            photos = result
+            collectionView.reloadData()
+        }catch {
+            fatalError("the fetch could not be performed \(error.localizedDescription)")
+        }
+    }
+    
+    @IBAction func requestNewCollection(_ sender: Any) {
+        if photos != nil && photos.count>0{
+        deletePhotos()
+        }
+        photos.removeAll()
+        requestImages()
+    }
+    
+    func requestImages(){
+        Network.getPhotosData(lat: pin.latitude, lon: pin.longitude) { (photosData, error) in
+            guard let photosData = photosData else{
+                self.showRequestImageFaultAlert()
+                return
+            }
+            for data in photosData{
+                let photo = Photo(context: self.dataController.viewContext)
+                photo.image = data
+                photo.pin = self.pin
+                self.photos.append(photo)
+            }
+            try? self.dataController.viewContext.save()
+            self.collectionView.reloadData()
+        }
+    }
+    
+    func deletePhotos(){
+        for photo in photos{
+            dataController.viewContext.delete(photo)
+        }
+        try? dataController.viewContext.save()
     }
 
     /*
@@ -36,54 +98,34 @@ class CollectionViewController: UICollectionViewController {
 
     // MARK: UICollectionViewDataSource
 
-    override func numberOfSections(in collectionView: UICollectionView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
-        return 0
-    }
-
-
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of items
-        return 0
+        return photos.count
     }
 
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath)
-    
-        // Configure the cell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as! CollectionViewCell
+        cell.imageView?.image = UIImage(named: "placeHolder")
+        cell.imageView?.image = UIImage(data: photos[indexPath.row].image!)
     
         return cell
     }
 
-    // MARK: UICollectionViewDelegate
-
-    /*
-    // Uncomment this method to specify if the specified item should be highlighted during tracking
-    override func collectionView(_ collectionView: UICollectionView, shouldHighlightItemAt indexPath: IndexPath) -> Bool {
-        return true
-    }
-    */
-
-    /*
-    // Uncomment this method to specify if the specified item should be selected
-    override func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
-        return true
-    }
-    */
-
-    /*
-    // Uncomment these methods to specify if an action menu should be displayed for the specified item, and react to actions performed on the item
-    override func collectionView(_ collectionView: UICollectionView, shouldShowMenuForItemAt indexPath: IndexPath) -> Bool {
-        return false
-    }
-
-    override func collectionView(_ collectionView: UICollectionView, canPerformAction action: Selector, forItemAt indexPath: IndexPath, withSender sender: Any?) -> Bool {
-        return false
-    }
-
-    override func collectionView(_ collectionView: UICollectionView, performAction action: Selector, forItemAt indexPath: IndexPath, withSender sender: Any?) {
+    // MARK: delete image
     
+    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        collectionView.deleteItems(at: [indexPath])
+        let photoToRemove = photos[indexPath.item]
+        photos.remove(at: indexPath.item)
+        dataController.viewContext.delete(photoToRemove)
+        try? dataController.viewContext.save()
     }
-    */
 
+    
+    //MARK: Alert
+    
+    func showRequestImageFaultAlert() {
+        let alert = UIAlertController(title: "Ops!", message: "images could not be downloaded, click new collection please", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+        present(alert, animated: true, completion: nil)
+    }
 }
