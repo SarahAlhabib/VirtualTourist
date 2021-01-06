@@ -1,7 +1,7 @@
 # VirtualTourist
 App uses Flickr API to display images for the location of the dropped pin on the map
 
-## Instalation
+## Installation
 clone with https
 `https://github.com/SarahAlhabib/VirtualTourist.git`
 
